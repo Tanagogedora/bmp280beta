@@ -1,15 +1,12 @@
 {
-    "name": "BMP280Beta",
-    "description": "",
+    "name": "bmp280betaVrJP",
+    "description": "BMP280 sensor extension for micro:bit (Japanese beta version)",
     "dependencies": {
-        "core": "*",
-        "radio": "*",
-        "microphone": "*"
+        "core": "*"
     },
     "files": [
         "main.blocks",
-        "main.ts",
-        "README.md"
+        "main.ts"
     ],
     "testFiles": [
         "test.ts"
