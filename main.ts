@@ -192,7 +192,7 @@ namespace BMP280 {
     /**
      * 指定値より気圧が低い場合のイベントブロック
      */
-    //% block="気圧が　%dat　より低い" dat.defl=100000
+    //% block="気圧が　%dat　より低い時" dat.defl=100000
     export function PressureBelowThan(dat: number, body: () => void): void {
         control.inBackground(function () {
             while (true) {
@@ -208,7 +208,7 @@ namespace BMP280 {
     /**
      * 指定値より気圧が高い場合のイベントブロック
      */
-    //% block="気圧が %dat　より高い" dat.defl=100000
+    //% block="気圧が %dat　より高い時" dat.defl=100000
     export function PressureHigherThan(dat: number, body: () => void): void {
         control.inBackground(function () {
             while (true) {
@@ -225,7 +225,7 @@ namespace BMP280 {
     /**
     * 気温が指定値よりも低い時のイベント
     */
-    //% block="気温が %dat　より低い" dat.defl=10
+    //% block="気温が %dat　より低い時" dat.defl=10
     export function TemperatureBelowThan(dat: number, body: () => void): void {
         control.inBackground(function () {
             while (true) {
@@ -241,7 +241,7 @@ namespace BMP280 {
     /**
      * 気温が指定値よりも高い時のイベント
      */
-    //% block="気温が %dat　よりも高い" dat.defl=30
+    //% block="気温が %dat　よりも高い時" dat.defl=30
     export function TemperatureHigherThan(dat: number, body: () => void): void {
         control.inBackground(function () {
             while (true) {
