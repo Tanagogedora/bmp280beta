@@ -1,12 +1,34 @@
+/**
+ * makecode BMP280 digital pressure and temperature sensor package.
+ * 
+ * Based on original BME280 work from the MicroPython Chinese community:
+ * http://www.micropython.org.cn
+ * 
+ * Original License: MIT  
+ * Copyright (c) 2018, microbit/micropython Chinese community
+ * 
+ * Ported and modified for BMP280 and MakeCode by Tanagotti, 2025
+ * 
+ * (Note: The original BMP280 code from the same community was reviewed,
+ * but not used directly due to functional issues.)
+ */
+
 /*
-マイクロビットMakeCode　BMP280デジタル気圧・気温センサー搭載モジュール用パッケージ
- makecode BMP280 digital Atmospheric pressurer and Temperature sensor Package.
- MIT 
- 気圧と気温を測定します。
- 気圧(Atmosphere Pressurer):300～1100hPa 精度(accuracy)±1～1.7hPa 分解能(resolution)±0.16Pa
- 気温(Temperature):-40～85℃(Celsius degree)　精度(accuracy)±0.5～1℃(Celsius degree) 分解能(resolution)±0.01℃(Celsius degree)
- 気圧・気温の精度はデータシートによるものである。
+マイクロビット MakeCode 用 BMP280 デジタル気圧・気温センサーモジュール対応パッケージです。
+気圧 (Atmospheric Pressure) および気温 (Temperature) を測定できます。
+
+▼ 測定仕様（データシートに基づく参考値）:
+・気圧 (Atmospheric Pressure): 300～1100 hPa  
+　- 精度 (Accuracy): ±1.0～1.7 hPa  
+　- 分解能 (Resolution): ±0.16 Pa
+
+・気温 (Temperature): -40～85 ℃  
+　- 精度 (Accuracy): ±0.5～1.0 ℃  
+　- 分解能 (Resolution): ±0.01 ℃
+
+※ 精度・分解能は BMP280 の公式データシートに基づいています。
 */
+
 /*
  MakeCodeブロックの作成
 */
