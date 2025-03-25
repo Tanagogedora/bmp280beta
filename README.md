@@ -17,7 +17,7 @@
 4. 下記の URL を検索または貼り付けてインポート  
 https://github.com/tanagogedora/bmp280betaVrJP
 
-### 🖼 ブロック例（キャプチャ）
+### 🖼 ブロック例
 
 ![BMP280 ブロック](https://github.com/Tanagogedora/bmp280betaVrJP/blob/master/BMP280block.png?raw=true)
 
