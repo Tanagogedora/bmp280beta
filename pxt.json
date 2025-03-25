@@ -1,6 +1,7 @@
 {
     "name": "bmp280betaVrJP",
     "description": "BMP280 sensor extension for micro:bit (Japanese beta version)",
+    "icon": "icon.png",
     "dependencies": {
         "core": "*"
     },
