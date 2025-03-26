@@ -13,17 +13,19 @@ Sensor values are based on the official BMP280 datasheet.
 
 ---
 ## 📦 How to Use / 使い方
-### As a MakeCode Extension / MakeCode 拡張機能としての使用方法
-
+### As a MakeCode Extension
 1. Open [https://makecode.microbit.org/](https://makecode.microbit.org/)
- [https://makecode.microbit.org/](https://makecode.microbit.org/) を開く
 2. Create a new project
-「新しいプロジェクト」をクリック
 3. Click the gear icon (⚙) → "Extensions"
- 画面右上のギアボタン（⚙）をクリックし、「拡張機能」を選択 
 4. Paste the following URL to add the extension
-下記の URL を検索または貼り付けてインポート:  
    `https://github.com/tanagogedora/bmp280betaVrJP`
+
+	MakeCode 拡張機能としての使用方法
+1. MakeCode [https://makecode.microbit.org/](https://makecode.microbit.org/)を開く
+2. 「新しいプロジェクト」をクリック
+3. 画面右上のギアボタン（⚙）をクリックし、「拡張機能」を選択 
+4. 下記の URL を検索または貼り付けてインポート:  
+   `https://github.com/tanagogedora/bmp280betaVrJP
 
 ### 🖼 Example Blocks / ブロック例
 
@@ -31,16 +33,17 @@ Sensor values are based on the official BMP280 datasheet.
 
 ---
 
-## ✏️ To modify the extension source code in MakeCode/MakeCode 上で編集:
+## ✏️ To modify the extension source code in MakeCode:
 
 1. Open [https://makecode.microbit.org/](https://makecode.microbit.org/)
-MakeCode[https://makecode.microbit.org/](https://makecode.microbit.org/) を開く
 2. Click "Import" → "Import URL"
-「読み込む」→「URLから読み込む…」を選択
 3. Paste this URL
-以下の URL を貼り付けてインポート :  
-   `https://github.com/tanagogedora/bmp280betaVrJP`
 
+	MakeCode 上で編集
+1. MakeCode[https://makecode.microbit.org/](https://makecode.microbit.org/) を開く
+2. 「読み込む」→「URLから読み込む…」を選択
+3. 以下の URL を貼り付けてインポート :  
+   `https://github.com/tanagogedora/bmp280betaVrJP`
 ---
 
 ## 🧪 Sensor Specification (Based on Datasheet) / 測定仕様（参考：データシートより）
