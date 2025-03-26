@@ -17,8 +17,8 @@ Sensor values are based on the official BMP280 datasheet.
 1. Open [https://makecode.microbit.org/](https://makecode.microbit.org/)
 1. Create a new project
 1. Click the gear icon (⚙) → "Extensions"
-1. Paste the following URL to add the extension
-   `https://github.com/tanagogedora/bmp280betaVrJP`  
+1. Paste the following URL to add the extension　　
+1.    `https://github.com/tanagogedora/bmp280betaVrJP`  
 
 	MakeCode 拡張機能としての使用方法
 <!-- Reset numbering -->
