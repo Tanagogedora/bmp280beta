@@ -33,7 +33,8 @@ Sensor values are based on the official BMP280 datasheet.
 
 ## ✏️ To modify the extension source code in MakeCode/MakeCode 上で編集:
 
-1. Open [https://makecode.microbit.org/](https://makecode.microbit.org/)/[https://makecode.microbit.org/](https://makecode.microbit.org/) を開く
+1. Open [https://makecode.microbit.org/](https://makecode.microbit.org/)
+MakeCode[https://makecode.microbit.org/](https://makecode.microbit.org/) を開く
 2. Click "Import" → "Import URL"
 「読み込む」→「URLから読み込む…」を選択
 3. Paste this URL
