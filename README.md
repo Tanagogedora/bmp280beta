@@ -7,7 +7,7 @@ You can measure atmospheric pressure and temperature (Note: Humidity is not supp
 Sensor values are based on the official BMP280 datasheet.
 
 この拡張機能は、BMP280 デジタル気圧・気温センサーを micro:bit の MakeCode 上で利用するためのものです。  
-気圧と気温の測定が可能です（※湿度は非対応）。センサー仕様は BMP280 のデータシートに基づいています。。
+気圧と気温の測定が可能です（※湿度は非対応）。センサー仕様は BMP280 のデータシートに基づいています。
 
 > 🔗 **Demo Page:**デモページを見る: [https://tanagogedora.github.io/bmp280betaVrJP/](https://tanagogedora.github.io/bmp280betaVrJP/)
 
@@ -39,6 +39,7 @@ Sensor values are based on the official BMP280 datasheet.
 1. Open [https://makecode.microbit.org/](https://makecode.microbit.org/)
 1. Click "Import" → "Import URL"
 1. Paste this URL
+`https://github.com/tanagogedora/bmp280betaVrJP`
 
 	MakeCode 上で編集
 <!-- Reset numbering -->
