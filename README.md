@@ -49,6 +49,7 @@ Sensor values are based on the official BMP280 datasheet.
 ---
 
 ## 🧪 Sensor Specification (Based on Datasheet) / 測定仕様（参考：データシートより）
+
 | Measurement(測定対象) | Range(範囲) | Accuracy(精度) | Resolution(分解能) |
 |-----------|------------------|-------------------|--------------------|
 | Pressure(気圧) | 300 ～ 1100 hPa | ±1.0 ～ 1.7 hPa | ±0.16 Pa |
