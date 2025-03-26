@@ -21,6 +21,7 @@ Sensor values are based on the official BMP280 datasheet.
    `https://github.com/tanagogedora/bmp280betaVrJP`  
 
 	MakeCode 拡張機能としての使用方法
+
 <!-- Reset numbering -->
 1. MakeCode [https://makecode.microbit.org/](https://makecode.microbit.org/)を開く
 1. 「新しいプロジェクト」をクリック
@@ -42,6 +43,7 @@ Sensor values are based on the official BMP280 datasheet.
 `https://github.com/tanagogedora/bmp280betaVrJP`  
 
 	MakeCode 上で編集
+
 <!-- Reset numbering -->
 1. MakeCode[https://makecode.microbit.org/](https://makecode.microbit.org/) を開く
 1. 「読み込む」→「URLから読み込む…」を選択
