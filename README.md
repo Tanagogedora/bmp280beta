@@ -25,8 +25,8 @@ Sensor values are based on the official BMP280 datasheet.
 1. MakeCode [https://makecode.microbit.org/](https://makecode.microbit.org/)を開く
 1. 「新しいプロジェクト」をクリック
 1. 画面右上のギアボタン（⚙）をクリックし、「拡張機能」を選択 
-1. 下記の URL を検索または貼り付けてインポート
-   `https://github.com/tanagogedora/bmp280betaVrJP
+1. 下記の URL を検索または貼り付けてインポート:  
+   `https://github.com/tanagogedora/bmp280betaVrJP`
 
 ### 🖼 Example Blocks / ブロック例
 
