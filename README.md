@@ -45,10 +45,12 @@ Sensor values are based on the official BMP280 datasheet.
 1. MakeCode[https://makecode.microbit.org/](https://makecode.microbit.org/) を開く
 1. 「読み込む」→「URLから読み込む…」を選択
 1. 以下の URL を貼り付けてインポート :  
-   `https://github.com/tanagogedora/bmp280betaVrJP`
+`https://github.com/tanagogedora/bmp280betaVrJP`
+
 ---
 
 ## 🧪 Sensor Specification (Based on Datasheet) / 測定仕様（参考：データシートより）
+
 
 | Measurement(測定対象) | Range(範囲) | Accuracy(精度) | Resolution(分解能) |
 |-----------|------------------|-------------------|--------------------|
@@ -56,8 +58,6 @@ Sensor values are based on the official BMP280 datasheet.
 | Temperature(気温) | -40 ～ +85 ℃ | ±0.5 ～ 1.0 ℃ | ±0.01 ℃ |
 
 ※ 上記の値は BMP280 の公式データシートに基づく参考値です。
-
----
 
 ## 📝 ライセンス
 
