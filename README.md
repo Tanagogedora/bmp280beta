@@ -64,6 +64,23 @@ Sensor values are based on the official BMP280 datasheet.
 
 ※ 上記の値は BMP280 の公式データシートに基づく参考値です。
 
+## 📝 Acknowledgement
+
+This extension is based on an open-source BME280 TypeScript implementation originally developed by the microbit/micropython Chinese community (2018).
+
+We have adapted and extended it for Japanese educational use, adding Japanese block support and decimal precision for science experiments.
+
+Original Source: http://www.micropython.org.cn
+
+## 📝 謝辞・ベースとなった実装について
+
+本拡張機能は、microbit/micropython 中国コミュニティ（2018年）による BME280 TypeScript 実装をもとに開発しています。
+
+日本の教育現場での利用を想定し、ブロックの日本語対応や小数点精度での測定機能を追加しました。
+
+元コード提供元（参考）：http://www.micropython.org.cn
+
+
 ## 📝 ライセンス
 
 MIT License 
@@ -71,7 +88,7 @@ MIT License
 © 2025 Tanagotti  
 Based on BME280 code by the microbit/micropython Chinese community (2018)  
 Original: http://www.micropython.org.cn 
-© 2025 Tanagotti  
+ 
 元コード：microbit/micropython Chinese community による BME280 コード（2018年）  
 ---
 
