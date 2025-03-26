@@ -19,7 +19,7 @@ Sensor values are based on the official BMP280 datasheet.
 3. Click the gear icon (⚙) → "Extensions"
 4. Paste the following URL to add the extension
    `https://github.com/tanagogedora/bmp280betaVrJP`
-
+<!-- Reset numbering -->
 	MakeCode 拡張機能としての使用方法
 1. MakeCode [https://makecode.microbit.org/](https://makecode.microbit.org/)を開く
 2. 「新しいプロジェクト」をクリック
@@ -38,7 +38,7 @@ Sensor values are based on the official BMP280 datasheet.
 1. Open [https://makecode.microbit.org/](https://makecode.microbit.org/)
 2. Click "Import" → "Import URL"
 3. Paste this URL
-
+<!-- Reset numbering -->
 	MakeCode 上で編集
 1. MakeCode[https://makecode.microbit.org/](https://makecode.microbit.org/) を開く
 2. 「読み込む」→「URLから読み込む…」を選択
