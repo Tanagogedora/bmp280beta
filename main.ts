@@ -1,4 +1,99 @@
 /**
+ * MakeCode BMP280 Digital Pressure and Temperature Sensor Package
+ *
+ * Based on original BME280 work by the MicroPython Chinese community:
+ * http://www.micropython.org.cn
+ *
+ * Original License: MIT  
+ * Copyright (c) 2018, microbit/micropython Chinese community
+ *
+ * Ported and modified for BMP280 and MakeCode by Tanagotti, 2025
+ *
+ * (Note: The original BMP280 code from the same community was reviewed,
+ * but not used directly due to functional issues.)
+ */
+
+/*
+ * This package supports the BMP280 digital pressure and temperature sensor module for micro:bit MakeCode.
+ * It allows you to measure atmospheric pressure and temperature.
+ *
+ * ▼ Measurement specifications (reference values based on the datasheet):
+ * - Atmospheric pressure: 300–1100 hPa
+ *   - Accuracy: ±1.0 to 1.7 hPa
+ *   - Resolution: ±0.16 Pa
+ *
+ * - Temperature: -40 to 85 ℃
+ *   - Accuracy: ±0.5 to 1.0 ℃
+ *   - Resolution: ±0.01 ℃
+ *
+ * *Accuracy and resolution are based on the official BMP280 datasheet.
+ *
+ * マイクロビット MakeCode 用 BMP280 デジタル気圧・気温センサーモジュール対応パッケージです。
+ * 気圧および気温を測定できます。
+ *
+ * ▼ 測定仕様（データシートに基づく参考値）:
+ * - 気圧 : 300～1100 hPa  
+ *   - 精度 : ±1.0～1.7 hPa  
+ *   - 分解能 : ±0.16 Pa
+ *
+ * - 気温 : -40～85 ℃  
+ *   - 精度 : ±0.5～1.0 ℃  
+ *   - 分解能 : ±0.01 ℃
+ *
+ * ※ 精度・分解能は BMP280 の公式データシートに基づいています。
+ */
+
+/*
+ * Creating MakeCode Blocks / MakeCode ブロックの作成
+ */
+
+// Enum Definitions / 列挙型の定義
+
+// I2C Address / I2C アドレス
+enum BMP280_I2C_ADDRESS {
+    // Address selection: 0x76 or 0x77 / アドレスの選択：0x76 または 0x77
+    //% block="0x76"
+    ADDR_0x76 = 0x76,
+    //% block="0x77"
+    ADDR_0x77 = 0x77
+}
+
+// Temperature Unit / 気温の単位
+enum BMP280_T {
+    // Temperature units: C (Celsius) or F (Fahrenheit) / 温度単位：C（摂氏）または F（華氏）
+    //% block="C"
+    T_C = 0,
+    //% block="F"
+    T_F = 1
+}
+
+// Pressure Unit / 気圧の単位
+enum BMP280_P {
+    // Pressure units: Pa or hPa / 単位：Pa（パスカル）または hPa（ヘクトパスカル）
+    //% block="Pa"
+    Pa = 0,
+    //% block="hPa"
+    hPa = 1
+}
+
+/**
+ * BMP280 block
+ */
+
+// Specify the type and color of the block icon / ブロックアイコンの種類と色を指定
+//% weight=100 color=#70c0f0 icon="\uf042" block="BMP280"
+namespace BMP280 {
+    // ★ Global variables: Corrected temperature and pressure  (units: T=℃, P=Pa)
+    // グローバル変数：補正後の気温と気圧（単位：T=℃、P=Pa）
+    let T = 0;
+    let P = 0;
+
+    // Default I2C address: 0x77 / デフォルトの I2C アドレス：0x77
+    let BMP280_I2C_ADDR = BMP280_I2C_ADDRESS.ADDR_0x77;
+
+// Defining Functions / 関数の定義
+
+/**
  * makecode BMP280 digital pressure and temperature sensor package.
  * 
  * Based on original BME280 work from the MicroPython Chinese community:
@@ -85,206 +180,282 @@ namespace BMP280 {
         buf[1] = dat;
         pins.i2cWriteBuffer(BMP280_I2C_ADDR, buf);
     }
-    /**
-     *BMP280の任意のレジスタから1バイトの値を読み取る関数
-     *レジストリアドレス：reg 　浮動小数点（整数値）
-     *戻り値　浮動小数点（整数値）
-     *送信先のBMP280の I2C アドレスに対し、レジストリアドレスを8ビットの符号なし整数をビッグエンディアン形式で送信して書き込む。
-   *その後BMP280 の I2C アドレスに対して 1バイトの読み取りを行い、
-   *それを 8ビット符号なし整数として受け取り、
-   *関数の返り値として返す
-     */
+// Defining Functions / 関数の定義
 
-    function getreg(reg: number): number {
-        pins.i2cWriteNumber(BMP280_I2C_ADDR, reg, NumberFormat.UInt8BE);
-        return pins.i2cReadNumber(BMP280_I2C_ADDR, NumberFormat.UInt8BE);
-    }
-    //8ビットの符号付き整数として読む関数
-    //BMP280には8ビット符号付整数はないが念のため残している
-    function getInt8LE(reg: number): number {
-        pins.i2cWriteNumber(BMP280_I2C_ADDR, reg, NumberFormat.UInt8BE);
-        return pins.i2cReadNumber(BMP280_I2C_ADDR, NumberFormat.Int8LE);
-    }
-    //16ビットの符号なし整数として読む関数
-    //dig_T1, dig_P1 などの16bit符号なしの補正パラメータ用として利用
-    function getUInt16LE(reg: number): number {
-        pins.i2cWriteNumber(BMP280_I2C_ADDR, reg, NumberFormat.UInt8BE);
-        return pins.i2cReadNumber(BMP280_I2C_ADDR, NumberFormat.UInt16LE);
-    }
+/**
+ * Writes 1 byte of data to a BMP280 register.
+ * BMP280 のレジスタに 1 バイトのデータを書き込みます。
+ * 
+ * @param reg Register address (integer) / レジストリアドレス（整数値）
+ * @param dat Data to write (integer) / 書き込むデータ（整数値）
+ * 
+ * Creates a 2-byte buffer and writes [reg, dat] via I2C.
+ * 2バイトのバッファに reg と dat を格納し、I2C で送信します。
+ */
+function setreg(reg: number, dat: number): void {
+    let buf = pins.createBuffer(2);
+    buf[0] = reg;
+    buf[1] = dat;
+    pins.i2cWriteBuffer(BMP280_I2C_ADDR, buf);
+}
 
-    //16bit符号付整数として読む関数
-    //dig_T2, dig_T3, dig_P2 など補正パラメータ用として利用
-    function getInt16LE(reg: number): number {
-        pins.i2cWriteNumber(BMP280_I2C_ADDR, reg, NumberFormat.UInt8BE);
-        return pins.i2cReadNumber(BMP280_I2C_ADDR, NumberFormat.Int16LE);
-    }
-    // BMP280の補正パラメータ（温度・気圧補正用）
-    // データシートの0x88〜0x9Fに格納された工場出荷時キャリブレーション値
-    // ※BMP280とも共通（湿度関連レジスタは除く）
-    let dig_T1 = getUInt16LE(0x88);
-    let dig_T2 = getInt16LE(0x8A);
-    let dig_T3 = getInt16LE(0x8C);
-    let dig_P1 = getUInt16LE(0x8E);
-    let dig_P2 = getInt16LE(0x90);
-    let dig_P3 = getInt16LE(0x92);
-    let dig_P4 = getInt16LE(0x94);
-    let dig_P5 = getInt16LE(0x96);
-    let dig_P6 = getInt16LE(0x98);
-    let dig_P7 = getInt16LE(0x9A);
-    let dig_P8 = getInt16LE(0x9C);
-    let dig_P9 = getInt16LE(0x9E);
-    // 気温・気圧の測定設定
-    setreg(0xF4, 0x2F); // 温度×1、気圧×4、Normal mode
-    //IIRフィルタの設定
-    setreg(0xF5, 0x0C); // IIRフィルタ係数=4、スタンバイ時間=0.5ms	
-    //気温・気圧取得の関数
-    function get(): void {
-        // 温度の生データ（20ビット）読み取り
-        let adc_T = (getreg(0xFA) << 12) + (getreg(0xFB) << 4) + (getreg(0xFC) >> 4);
+/**
+ * Reads 1 byte from a register of the BMP280.
+ * BMP280 の任意のレジスタから 1 バイトの値を読み取ります。
+ * 
+ * @param reg Register address (integer) / レジストリアドレス（整数値）
+ * @returns Value read (integer) / 読み取った値（整数値）
+ * 
+ * Sends the register address via I2C using UInt8BE format,
+ * then reads 1 byte from the device.
+ * レジストリアドレスを UInt8BE 形式で送信し、1 バイトを読み取って返します。
+ */
+function getreg(reg: number): number {
+    pins.i2cWriteNumber(BMP280_I2C_ADDR, reg, NumberFormat.UInt8BE);
+    return pins.i2cReadNumber(BMP280_I2C_ADDR, NumberFormat.UInt8BE);
+}
 
-        // 温度補正（小数点付き）
-        let var1 = (((adc_T >> 3) - (dig_T1 << 1)) * dig_T2) >> 11;
-        let var2 = (((((adc_T >> 4) - dig_T1) * ((adc_T >> 4) - dig_T1)) >> 12) * dig_T3) >> 14;
-        //t_fine を宣言・代入
-        let t_fine = var1 + var2;
-        let temp = t_fine as number;
-        T = ((temp * 5 + 128) / 256.0) / 100.0;  // 小数点付きの気温（℃）
+/**
+ * Reads an 8-bit signed integer.
+ * 8 ビットの符号付き整数を読み取ります。
+ * 
+ * @note BMP280 には 8 ビット符号付きの値はありませんが、念のために残しています。
+ * 
+ * @param reg Register address / レジストリアドレス
+ * @returns Signed 8-bit integer / 符号付き 8 ビット整数
+ */
+function getInt8LE(reg: number): number {
+    pins.i2cWriteNumber(BMP280_I2C_ADDR, reg, NumberFormat.UInt8BE);
+    return pins.i2cReadNumber(BMP280_I2C_ADDR, NumberFormat.Int8LE);
+}
 
-        // 気圧の生データ（20ビット）読み取り
-        let adc_P = (getreg(0xF7) << 12) + (getreg(0xF8) << 4) + (getreg(0xF9) >> 4);
+/**
+ * Reads a 16-bit unsigned integer.
+ * 16 ビットの符号なし整数を読み取ります。
+ * 
+ * Used for calibration parameters such as dig_T1, dig_P1, etc.
+ * dig_T1、dig_P1 などの補正パラメータ用に使用します。
+ * 
+ * @param reg Register address / レジストリアドレス
+ * @returns Unsigned 16-bit integer / 符号なし 16 ビット整数
+ */
+function getUInt16LE(reg: number): number {
+    pins.i2cWriteNumber(BMP280_I2C_ADDR, reg, NumberFormat.UInt8BE);
+    return pins.i2cReadNumber(BMP280_I2C_ADDR, NumberFormat.UInt16LE);
+}
 
-        // 気圧補正（整数版）
-        var1 = (t_fine >> 1) - 64000;
-        var2 = (((var1 >> 2) * (var1 >> 2)) >> 11) * dig_P6;
-        var2 = var2 + ((var1 * dig_P5) << 1);
-        var2 = (var2 >> 2) + (dig_P4 << 16);
-        var1 = (((dig_P3 * ((var1 >> 2) * (var1 >> 2)) >> 13) >> 3) + ((dig_P2 * var1) >> 1)) >> 18;
-        var1 = ((32768 + var1) * dig_P1) >> 15;
+/**
+ * Reads a 16-bit signed integer.
+ * 16 ビットの符号付き整数を読み取ります。
+ * 
+ * Used for calibration parameters such as dig_T2, dig_T3, dig_P2.
+ * dig_T2、dig_T3、dig_P2 などの補正パラメータ用に使用します。
+ * 
+ * @param reg Register address / レジストリアドレス
+ * @returns Signed 16-bit integer / 符号付き 16 ビット整数
+ */
+function getInt16LE(reg: number): number {
+    pins.i2cWriteNumber(BMP280_I2C_ADDR, reg, NumberFormat.UInt8BE);
+    return pins.i2cReadNumber(BMP280_I2C_ADDR, NumberFormat.Int16LE);
+}
 
-        if (var1 == 0) return; // 0除算防止
+/**
+ * BMP280 calibration parameters for temperature and pressure.
+ * BMP280 の温度・気圧補正用キャリブレーションパラメータです。
+ * 
+ * Address range: 0x88 to 0x9F (factory-programmed values)
+ * アドレス範囲：0x88〜0x9F（工場出荷時に書き込まれた補正値）
+ * 
+ * Common to BMP280 sensors (excluding humidity-related registers)
+ * BMP280 センサーで共通（湿度関連のレジスタは除く）
+ */
+let dig_T1 = getUInt16LE(0x88);
+let dig_T2 = getInt16LE(0x8A);
+let dig_T3 = getInt16LE(0x8C);
+let dig_P1 = getUInt16LE(0x8E);
+let dig_P2 = getInt16LE(0x90);
+let dig_P3 = getInt16LE(0x92);
+let dig_P4 = getInt16LE(0x94);
+let dig_P5 = getInt16LE(0x96);
+let dig_P6 = getInt16LE(0x98);
+let dig_P7 = getInt16LE(0x9A);
+let dig_P8 = getInt16LE(0x9C);
+let dig_P9 = getInt16LE(0x9E);
 
-        let _p = ((1048576 - adc_P) - (var2 >> 12)) * 3125;
-        _p = Math.idiv(_p, var1) * 2;
-        var1 = (dig_P9 * (((_p >> 3) * (_p >> 3)) >> 13)) >> 12;
-        var2 = (((_p >> 2)) * dig_P8) >> 13;
-        P = _p + ((var1 + var2 + dig_P7) >> 4); // 単位：Pa
-    }
-    /**
-     * 気圧の取得
-     */
-    //% blockId="BMP280_GET_PRESSURE" block="気圧 %u"
-    //% weight=80 blockGap=8
-    export function pressure(u: BMP280_P): number {
-        get();
-        if (u == BMP280_P.Pa) return P;
-        else return Math.idiv(P, 100)
-    }
+// Temperature and pressure measurement settings
+// Temperature x 1, pressure x 4, Normal mode
+// 気温・気圧の測定設定
+// 温度×1、気圧×4、Normal mode
+setreg(0xF4, 0x2F);
 
-    /**
-     * 気温の取得
-     */
-    //% blockId="BMP280_GET_TEMPERATURE" block="気温 %u"
-    //% weight=80 blockGap=8
-    export function temperature(u: BMP280_T): number {
-        get();
-        if (u == BMP280_T.T_C) return T;
-        else return 32 + Math.idiv(T * 9, 5)
-    }
-    //センサーの電源制御（起動とスリープ）
-    /**
-     *起動
-     */
-    //% blockId="BME280_POWER_ON" block="センサー起動"
-    //% weight=22 blockGap=8
-    export function PowerOn() {
-        setreg(0xF4, 0x2F)
-    }
+// IIR filter settings
+// IIR filter coefficient = 4, standby time = 0.5 ms
+// IIR フィルターの設定
+// IIR フィルタ係数 = 4、スタンバイ時間 = 0.5ms
+setreg(0xF5, 0x0C);
 
-    /**
-     * 停止（スリープ）
-     */
-    //% blockId="BME280_POWER_OFF" block="センサー停止"
-    //% weight=21 blockGap=8
-    export function PowerOff() {
-        setreg(0xF4, 0)
-    }
+/**
+ * Reads raw data from the sensor and calculates corrected temperature and pressure.
+ * センサーから生データを読み取り、補正済みの気温と気圧を算出します。
+ */
+function get(): void {
+    // Read raw temperature data (20 bits)
+    // 温度の生データ（20ビット）読み取り
+    let adc_T = (getreg(0xFA) << 12) + (getreg(0xFB) << 4) + (getreg(0xFC) >> 4);
 
-    //気温・気圧が指定値以上以下のブロック
-    //気圧
-    /**
-     * 指定値より気圧が低い場合のイベントブロック
-     */
-    //% block="気圧が　%dat　より低い時" dat.defl=100000
-    export function PressureBelowThan(dat: number, body: () => void): void {
-        control.inBackground(function () {
-            while (true) {
-                get()
-                if (P < dat) {
-                    body()
-                }
-                basic.pause(1000)
+    // Temperature compensation calculation
+    // 温度補正の計算
+    let var1 = (((adc_T >> 3) - (dig_T1 << 1)) * dig_T2) >> 11;
+    let var2 = (((((adc_T >> 4) - dig_T1) * ((adc_T >> 4) - dig_T1)) >> 12) * dig_T3) >> 14;
+    let t_fine = var1 + var2;
+    let temp = t_fine as number;
+
+    // Calculate corrected temperature, rounded to 2 decimal places
+    // 補正後の気温を計算（小数第2位で四捨五入）
+    T = Math.round(((temp * 5 + 128) / 256.0) / 100.0 * 100) / 100;
+
+    // Read raw pressure data (20 bits)
+    // 気圧の生データ（20ビット）読み取り
+    let adc_P = (getreg(0xF7) << 12) + (getreg(0xF8) << 4) + (getreg(0xF9) >> 4);
+
+    // Pressure compensation calculation
+    // 気圧補正の計算
+    var1 = (t_fine >> 1) - 64000;
+    var2 = (((var1 >> 2) * (var1 >> 2)) >> 11) * dig_P6;
+    var2 = var2 + ((var1 * dig_P5) << 1);
+    var2 = (var2 >> 2) + (dig_P4 << 16);
+    var1 = (((dig_P3 * ((var1 >> 2) * (var1 >> 2)) >> 13) >> 3) + ((dig_P2 * var1) >> 1)) >> 18;
+    var1 = ((32768 + var1) * dig_P1) >> 15;
+
+    if (var1 == 0) return; // Prevent division by zero / 0除算防止
+
+    let _p = ((1048576 - adc_P) - (var2 >> 12)) * 3125;
+    _p = Math.round((_p / var1) * 2 * 100) / 100; // Round to 0.01 Pa
+    var1 = (dig_P9 * (((_p >> 3) * (_p >> 3)) >> 13)) >> 12;
+    var2 = (((_p >> 2)) * dig_P8) >> 13;
+    P = _p + ((var1 + var2 + dig_P7) >> 4);
+}
+
+/**
+ * Get pressure value from BMP280 sensor
+ * BMP280 センサーから気圧を取得します
+ *
+ * @param u Pressure unit (Pa or hPa) / 気圧の単位（Pa または hPa）
+ * @returns Pressure value / 気圧の値（単位に応じた小数第1位）
+ */
+//% blockId="BMP280_GET_PRESSURE" block="気圧 pressure %u"
+//% weight=80 blockGap=8
+export function pressure(u: BMP280_P): number {
+    get();
+    if (u == BMP280_P.Pa) return Math.round(P * 10) / 10; // Pa 小数第1位で四捨五入
+    else return Math.round((P / 100) * 10) / 10; // hPa 小数第1位で四捨五入
+}
+
+/**
+ * Get temperature value from BMP280 sensor
+ * BMP280 センサーから気温を取得します
+ *
+ * @param u Temperature unit (C or F) / 温度の単位（C または F）
+ * @returns Temperature value / 気温の値（単位に応じた小数第1位）
+ */
+//% blockId="BMP280_GET_TEMPERATURE" block="気温 temperature %u"
+//% weight=80 blockGap=8
+/**
+ * Power on the BMP280 sensor.
+ * BMP280 センサーを起動（電源オン）します。
+ */
+//% blockId="BME280_POWER_ON" block="Power on / センサー起動"
+//% weight=22 blockGap=8
+export function PowerOn() {
+    setreg(0xF4, 0x2F);
+}
+
+/**
+ * Power off the BMP280 sensor.
+ * BMP280 センサーを停止（スリープ状態）にします。
+ */
+//% blockId="BME280_POWER_OFF" block="Power off / センサー停止"
+//% weight=21 blockGap=8
+export function PowerOff() {
+    setreg(0xF4, 0);
+}
+                basic.pause(1000);
             }
-        })
+        });
     }
 
     /**
-     * 指定値より気圧が高い場合のイベントブロック
+     * Triggered when pressure is higher than a specified value.
+     * 気圧が指定値より高い場合のイベントブロック
+     *
+     * @param dat Threshold value / しきい値（Pa）
+     * @param body Action to perform / 実行する処理
      */
-    //% block="気圧が %dat　より高い時" dat.defl=100000
+    //% block="when pressure >  %dat / 気圧が %datより高い" dat.defl=100000
     export function PressureHigherThan(dat: number, body: () => void): void {
         control.inBackground(function () {
             while (true) {
-                get()
+                get();
                 if (P > dat) {
-                    body()
+                    body();
                 }
-                basic.pause(1000)
+                basic.pause(1000);
             }
-        })
+        });
     }
 
-    //気温
     /**
-    * 気温が指定値よりも低い時のイベント
-    */
-    //% block="気温が %dat　より低い時" dat.defl=10
+     * Triggered when temperature is below a specified value.
+     * 気温が指定値より低い場合のイベントブロック
+     *
+     * @param dat Threshold value / しきい値（℃）
+     * @param body Action to perform / 実行する処理
+     */
+    //% block="when temperature <  %dat / 気温が  %dat より低い" dat.defl=10
     export function TemperatureBelowThan(dat: number, body: () => void): void {
         control.inBackground(function () {
             while (true) {
-                get()
+                get();
                 if (T < dat) {
-                    body()
+                    body();
                 }
-                basic.pause(1000)
+                basic.pause(1000);
             }
-        })
+        });
     }
 
     /**
-     * 気温が指定値よりも高い時のイベント
+     * Triggered when temperature is higher than a specified value.
+     * 気温が指定値より高い場合のイベントブロック
+     *
+     * @param dat Threshold value / しきい値（℃）
+     * @param body Action to perform / 実行する処理
      */
-    //% block="気温が %dat　よりも高い時" dat.defl=30
+    //% block="when temperature >  %dat / 気温が %dat より高い" dat.defl=30
     export function TemperatureHigherThan(dat: number, body: () => void): void {
         control.inBackground(function () {
             while (true) {
-                get()
+                get();
                 if (T > dat) {
-                    body()
+                    body();
                 }
-                basic.pause(1000)
+                basic.pause(1000);
             }
-        })
+        });
     }
 
-    //I2Cアドレスセット
     /**
-     * I2Cアドレスのセット
+     * Set the I2C address of the BMP280 sensor.
+     * BMP280 の I2C アドレスを設定します。
+     *
+     * @param addr I2C address to set / 設定する I2C アドレス
      */
-    //% blockId="BME280_SET_ADDRESS" block="I2Cアドレス %addr"
+    //% blockId="BME280_SET_ADDRESS" block="I2C address / I2Cアドレス %addr"
     //% weight=20 blockGap=8
     export function Address(addr: BMP280_I2C_ADDRESS) {
-        BMP280_I2C_ADDR = addr
+        BMP280_I2C_ADDR = addr;
     }
 }
+
 
 
