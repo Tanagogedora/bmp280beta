@@ -3,11 +3,11 @@
 > ⚠️ **この拡張機能は現在ベータ版です。動作確認中の機能が含まれます。ご使用の際はご注意ください。**
 
 This extension allows the micro:bit to communicate with a BMP280 digital pressure and temperature sensor via I2C.  
-You can measure atmospheric pressure and temperature (Note: Humidity is not supported).  
+You can measure atmospheric pressure and temperature.  
 Sensor values are based on the official BMP280 datasheet.
 
 この拡張機能は、BMP280 デジタル気圧・気温センサーを micro:bit の MakeCode 上で利用するためのものです。  
-気圧と気温の測定が可能です（※湿度は非対応）。センサー仕様は BMP280 のデータシートに基づいています。
+気圧と気温の測定が可能です。センサー仕様は BMP280 のデータシートに基づいています。
 
 > 🔗 **Demo Page:**デモページを見る: [https://tanagogedora.github.io/bmp280betaVrJP/](https://tanagogedora.github.io/bmp280betaVrJP/)
 
@@ -66,17 +66,16 @@ Sensor values are based on the official BMP280 datasheet.
 
 ## 📝 Acknowledgement
 
-This extension is based on the open-source BME280 TypeScript implementation originally developed by the microbit/micropython Chinese community (2018).  
-However, due to differences in initialization and control, this version has been independently restructured as a BMP280-specific extension.  
-We adapted and extended it for Japanese educational use, including Japanese block labels and decimal precision suitable for science experiments.
-
+This extension is based on the BME280 TypeScript implementation originally developed by the microbit/micropython Chinese community (2018).  
+However, due to differences in initialization and control flow, this version has been re-implemented specifically for the BMP280 sensor.  
+We adapted and extended it for use in Japanese educational contexts, adding Japanese block support and improved decimal precision for science experiments.
 
 Original Source: http://www.micropython.org.cn
 
 ## 📝 謝辞・ベースとなった実装について
 
 本拡張機能は、microbit/micropython 中国コミュニティ（2018年）による BME280 TypeScript 実装をもとに開発しています。  
-ただし、BME280 用の元実装とは初期化処理や制御仕様が異なるため、本拡張機能は BMP280 専用として新たに移植・再構成されたものです。  
+ただし、BME280 向け実装とは初期化方法や制御仕様が異なるため、本拡張機能は BMP280 専用として新たに移植・再構築されたものです。  
 日本の教育現場での利用を想定し、ブロックの日本語対応や小数点精度での測定機能も追加しています。
 
 元コード提供元（参考）：http://www.micropython.org.cn
