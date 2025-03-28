@@ -376,13 +376,10 @@ export function PowerOn() {
  */
 //% blockId="BME280_POWER_OFF" block="Power off / センサー停止"
 //% weight=21 blockGap=8
-export function PowerOff() {
+export function PowerOff(): void {
     setreg(0xF4, 0);
+    basic.pause(1000);
 }
-                basic.pause(1000);
-            }
-        });
-    }
 
     /**
      * Triggered when pressure is higher than a specified value.
